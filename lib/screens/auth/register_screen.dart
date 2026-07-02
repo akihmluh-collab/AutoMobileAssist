@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:auto_mobile_assist/l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -31,14 +32,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
         _phoneController.text.isEmpty ||
         _passwordController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill all fields')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.translate('please_fill_fields'))),
       );
       return;
     }
 
     if (_passwordController.text.length < 6) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Password must be at least 6 characters')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.translate('password_min_length'))),
       );
       return;
     }
@@ -68,12 +69,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
     if (success) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Registration successful! Please login.')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.translate('registration_success'))),
       );
       Navigator.pop(context);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Registration failed. Try again.')),
+        SnackBar(content: Text(AppLocalizations.of(context)!.translate('registration_failed'))),
       );
     }
   }
@@ -117,7 +118,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Create Your Account')),
+      appBar: AppBar(title: Text(AppLocalizations.of(context)!.translate('register_title'))),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -125,32 +126,32 @@ class _RegisterScreenState extends State<RegisterScreen> {
             children: [
               const SizedBox(height: 20),
               Text(
-                'Fill in your details to create your account',
+                AppLocalizations.of(context)!.translate('register_subtitle'),
                 style: TextStyle(color: Colors.grey.shade600),
               ),
               const SizedBox(height: 20),
               TextField(
                 controller: _nameController,
-                decoration: const InputDecoration(
-                  labelText: 'Full Name',
-                  prefixIcon: Icon(Icons.person),
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.translate('full_name'),
+                  prefixIcon: const Icon(Icons.person),
                 ),
               ),
               const SizedBox(height: 16),
               TextField(
                 controller: _emailController,
-                decoration: const InputDecoration(
-                  labelText: 'Email',
-                  prefixIcon: Icon(Icons.email),
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.translate('email'),
+                  prefixIcon: const Icon(Icons.email),
                 ),
                 keyboardType: TextInputType.emailAddress,
               ),
               const SizedBox(height: 16),
               TextField(
                 controller: _phoneController,
-                decoration: const InputDecoration(
-                  labelText: 'Phone Number',
-                  prefixIcon: Icon(Icons.phone),
+                decoration: InputDecoration(
+                  labelText: AppLocalizations.of(context)!.translate('phone'),
+                  prefixIcon: const Icon(Icons.phone),
                   hintText: '6XXXXXXXX',
                 ),
                 keyboardType: TextInputType.phone,
@@ -159,7 +160,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               TextField(
                 controller: _passwordController,
                 decoration: InputDecoration(
-                  labelText: 'Password (min 6 chars)',
+                  labelText: AppLocalizations.of(context)!.translate('password'),
                   prefixIcon: const Icon(Icons.lock),
                   suffixIcon: IconButton(
                     icon: Icon(_obscurePassword ? Icons.visibility_off : Icons.visibility),
@@ -171,19 +172,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 obscureText: _obscurePassword,
               ),
               const SizedBox(height: 16),
-              const Text(
-                'I am a:',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              Text(
+                AppLocalizations.of(context)!.translate('i_am_a'),
+                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 12),
               Wrap(
                 spacing: 10,
                 runSpacing: 10,
                 children: [
-                  _buildRoleCard('Vehicle Owner', Icons.directions_car),
-                  _buildRoleCard('Mechanic', Icons.build),
-                  _buildRoleCard('Parts Shop', Icons.shopping_cart),
-                  _buildRoleCard('Distributor', Icons.local_shipping),
+                  _buildRoleCard(
+                    AppLocalizations.of(context)!.translate('vehicle_owner'), 
+                    Icons.directions_car
+                  ),
+                  _buildRoleCard(
+                    AppLocalizations.of(context)!.translate('mechanic'), 
+                    Icons.build
+                  ),
+                  _buildRoleCard(
+                    AppLocalizations.of(context)!.translate('parts_shop'), 
+                    Icons.shopping_cart
+                  ),
+                  _buildRoleCard(
+                    AppLocalizations.of(context)!.translate('distributor'), 
+                    Icons.local_shipping
+                  ),
                 ],
               ),
               const SizedBox(height: 24),
@@ -194,12 +207,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(double.infinity, 50),
                       ),
-                      child: const Text('Create Account'),
+                      child: Text(AppLocalizations.of(context)!.translate('register_button')),
                     ),
               const SizedBox(height: 16),
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Already registered? Login'),
+                child: Text(AppLocalizations.of(context)!.translate('already_registered')),
               ),
             ],
           ),

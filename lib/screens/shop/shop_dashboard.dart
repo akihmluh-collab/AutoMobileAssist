@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:auto_mobile_assist/l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 
 class ShopDashboard extends StatelessWidget {
@@ -12,7 +13,7 @@ class ShopDashboard extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Auto-Mobile Assist'),
+        title: Text(AppLocalizations.of(context)!.translate('app_name')),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
@@ -26,13 +27,13 @@ class ShopDashboard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Welcome, ${user?.name ?? 'Shop Owner'}!',
+              '${AppLocalizations.of(context)!.translate('welcome')}, ${user?.name ?? 'Shop Owner'}!',
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Manage your parts inventory and sales.',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+            Text(
+              AppLocalizations.of(context)!.translate('shop_subtitle'),
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 24),
             GridView.count(
@@ -44,7 +45,7 @@ class ShopDashboard extends StatelessWidget {
               children: [
                 _buildMenuCard(
                   icon: Icons.inventory,
-                  title: 'Inventory',
+                  title: AppLocalizations.of(context)!.translate('inventory'),
                   color: Colors.blue,
                   onTap: () {
                     // Navigate to inventory
@@ -52,7 +53,7 @@ class ShopDashboard extends StatelessWidget {
                 ),
                 _buildMenuCard(
                   icon: Icons.add_shopping_cart,
-                  title: 'Add Parts',
+                  title: AppLocalizations.of(context)!.translate('add_parts'),
                   color: Colors.green,
                   onTap: () {
                     // Navigate to add parts
@@ -60,7 +61,7 @@ class ShopDashboard extends StatelessWidget {
                 ),
                 _buildMenuCard(
                   icon: Icons.shopping_cart,
-                  title: 'Orders',
+                  title: AppLocalizations.of(context)!.translate('orders'),
                   color: Colors.orange,
                   onTap: () {
                     // Navigate to orders
@@ -68,7 +69,7 @@ class ShopDashboard extends StatelessWidget {
                 ),
                 _buildMenuCard(
                   icon: Icons.attach_money,
-                  title: 'Sales',
+                  title: AppLocalizations.of(context)!.translate('sales'),
                   color: Colors.purple,
                   onTap: () {
                     // Navigate to sales

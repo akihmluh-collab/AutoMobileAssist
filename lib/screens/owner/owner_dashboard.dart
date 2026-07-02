@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:auto_mobile_assist/l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 
 class OwnerDashboard extends StatelessWidget {
@@ -12,7 +13,7 @@ class OwnerDashboard extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Auto-Mobile Assist'),
+        title: Text(AppLocalizations.of(context)!.translate('app_name')),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
@@ -26,13 +27,13 @@ class OwnerDashboard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Welcome, ${user?.name ?? 'Owner'}!',
+              '${AppLocalizations.of(context)!.translate('welcome')}, ${user?.name ?? 'Owner'}!',
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Find trusted mechanics near you.',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+            Text(
+              AppLocalizations.of(context)!.translate('find_mechanics_subtitle'),
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 24),
             GridView.count(
@@ -44,7 +45,7 @@ class OwnerDashboard extends StatelessWidget {
               children: [
                 _buildMenuCard(
                   icon: Icons.map,
-                  title: 'Find Mechanics',
+                  title: AppLocalizations.of(context)!.translate('find_mechanics'),
                   color: Colors.blue,
                   onTap: () {
                     // Navigate to map
@@ -52,7 +53,7 @@ class OwnerDashboard extends StatelessWidget {
                 ),
                 _buildMenuCard(
                   icon: Icons.car_repair,
-                  title: 'My Vehicles',
+                  title: AppLocalizations.of(context)!.translate('my_vehicles'),
                   color: Colors.green,
                   onTap: () {
                     // Navigate to vehicles
@@ -60,7 +61,7 @@ class OwnerDashboard extends StatelessWidget {
                 ),
                 _buildMenuCard(
                   icon: Icons.history,
-                  title: 'Service History',
+                  title: AppLocalizations.of(context)!.translate('service_history'),
                   color: Colors.orange,
                   onTap: () {
                     // Navigate to history
@@ -68,7 +69,7 @@ class OwnerDashboard extends StatelessWidget {
                 ),
                 _buildMenuCard(
                   icon: Icons.shopping_cart,
-                  title: 'Parts Marketplace',
+                  title: AppLocalizations.of(context)!.translate('parts_marketplace'),
                   color: Colors.purple,
                   onTap: () {
                     // Navigate to marketplace

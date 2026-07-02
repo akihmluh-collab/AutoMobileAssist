@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:auto_mobile_assist/l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 
 class AdminDashboard extends StatelessWidget {
@@ -12,7 +13,7 @@ class AdminDashboard extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Auto-Mobile Assist'),
+        title: Text(AppLocalizations.of(context)!.translate('app_name')),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
@@ -26,29 +27,41 @@ class AdminDashboard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Welcome, ${user?.name ?? 'Admin'}!',
+              '${AppLocalizations.of(context)!.translate('welcome')}, ${user?.name ?? 'Admin'}!',
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Manage users, verify mechanics, and monitor platform.',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+            Text(
+              AppLocalizations.of(context)!.translate('admin_subtitle'),
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 24),
             // Stats Row
             Row(
               children: [
-                _buildStatCard('Total Users', '0', Colors.blue),
+                _buildStatCard(
+                  AppLocalizations.of(context)!.translate('total_users'), 
+                  '0', 
+                  Colors.blue
+                ),
                 const SizedBox(width: 12),
-                _buildStatCard('Mechanics', '0', Colors.green),
+                _buildStatCard(
+                  AppLocalizations.of(context)!.translate('mechanics'), 
+                  '0', 
+                  Colors.green
+                ),
                 const SizedBox(width: 12),
-                _buildStatCard('Requests', '0', Colors.orange),
+                _buildStatCard(
+                  AppLocalizations.of(context)!.translate('requests'), 
+                  '0', 
+                  Colors.orange
+                ),
               ],
             ),
             const SizedBox(height: 24),
-            const Text(
-              'Management',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            Text(
+              AppLocalizations.of(context)!.translate('management'),
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             GridView.count(
@@ -60,37 +73,37 @@ class AdminDashboard extends StatelessWidget {
               children: [
                 _buildMenuCard(
                   icon: Icons.people,
-                  title: 'Users',
+                  title: AppLocalizations.of(context)!.translate('users'),
                   color: Colors.blue,
                   onTap: () {},
                 ),
                 _buildMenuCard(
                   icon: Icons.verified,
-                  title: 'Verify Mechanics',
+                  title: AppLocalizations.of(context)!.translate('verify_mechanics'),
                   color: Colors.green,
                   onTap: () {},
                 ),
                 _buildMenuCard(
                   icon: Icons.subscriptions,
-                  title: 'Subscriptions',
+                  title: AppLocalizations.of(context)!.translate('subscriptions'),
                   color: Colors.orange,
                   onTap: () {},
                 ),
                 _buildMenuCard(
                   icon: Icons.analytics,
-                  title: 'Revenue',
+                  title: AppLocalizations.of(context)!.translate('revenue'),
                   color: Colors.purple,
                   onTap: () {},
                 ),
                 _buildMenuCard(
                   icon: Icons.report_problem,
-                  title: 'Disputes',
+                  title: AppLocalizations.of(context)!.translate('disputes'),
                   color: Colors.red,
                   onTap: () {},
                 ),
                 _buildMenuCard(
                   icon: Icons.settings,
-                  title: 'Settings',
+                  title: AppLocalizations.of(context)!.translate('settings'),
                   color: Colors.grey,
                   onTap: () {},
                 ),

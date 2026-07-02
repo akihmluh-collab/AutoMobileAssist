@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:auto_mobile_assist/l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 
 class DistributorDashboard extends StatelessWidget {
@@ -12,7 +13,7 @@ class DistributorDashboard extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Auto-Mobile Assist'),
+        title: Text(AppLocalizations.of(context)!.translate('app_name')),
         actions: [
           IconButton(
             icon: const Icon(Icons.logout),
@@ -26,13 +27,13 @@ class DistributorDashboard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Welcome, ${user?.name ?? 'Distributor'}!',
+              '${AppLocalizations.of(context)!.translate('welcome')}, ${user?.name ?? 'Distributor'}!',
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Manage wholesale orders and distributor network.',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+            Text(
+              AppLocalizations.of(context)!.translate('distributor_subtitle'),
+              style: const TextStyle(fontSize: 16, color: Colors.grey),
             ),
             const SizedBox(height: 24),
             GridView.count(
@@ -44,7 +45,7 @@ class DistributorDashboard extends StatelessWidget {
               children: [
                 _buildMenuCard(
                   icon: Icons.business,
-                  title: 'My Storefront',
+                  title: AppLocalizations.of(context)!.translate('my_storefront'),
                   color: Colors.blue,
                   onTap: () {
                     // Navigate to storefront
@@ -52,7 +53,7 @@ class DistributorDashboard extends StatelessWidget {
                 ),
                 _buildMenuCard(
                   icon: Icons.inventory_2,
-                  title: 'Wholesale Listings',
+                  title: AppLocalizations.of(context)!.translate('wholesale_listings'),
                   color: Colors.green,
                   onTap: () {
                     // Navigate to wholesale listings
@@ -60,7 +61,7 @@ class DistributorDashboard extends StatelessWidget {
                 ),
                 _buildMenuCard(
                   icon: Icons.assignment,
-                  title: 'Bulk Orders',
+                  title: AppLocalizations.of(context)!.translate('bulk_orders'),
                   color: Colors.orange,
                   onTap: () {
                     // Navigate to bulk orders
@@ -68,7 +69,7 @@ class DistributorDashboard extends StatelessWidget {
                 ),
                 _buildMenuCard(
                   icon: Icons.trending_up,
-                  title: 'Sales Analytics',
+                  title: AppLocalizations.of(context)!.translate('sales_analytics'),
                   color: Colors.purple,
                   onTap: () {
                     // Navigate to sales analytics
