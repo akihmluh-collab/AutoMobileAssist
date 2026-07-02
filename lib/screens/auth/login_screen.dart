@@ -50,7 +50,12 @@ class _LoginScreenState extends State<LoginScreen> {
               'Auto-Mobile Assist',
               style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 48),
+            const SizedBox(height: 8),
+            Text(
+              'Enter your email and password',
+              style: TextStyle(color: Colors.grey.shade600),
+            ),
+            const SizedBox(height: 20),
             TextField(
               controller: _emailController,
               decoration: const InputDecoration(
@@ -92,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   MaterialPageRoute(builder: (_) => const RegisterScreen()),
                 );
               },
-              child: const Text("Don't have an account? Register"),
+              child: const Text("New user? Create Account"),
             ),
           ],
         ),

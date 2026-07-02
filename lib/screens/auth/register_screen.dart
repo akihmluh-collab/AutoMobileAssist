@@ -14,7 +14,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _emailController = TextEditingController();
   final _phoneController = TextEditingController();
   final _passwordController = TextEditingController();
-  String _selectedRole = 'owner';
+  String _selectedRole = 'Vehicle Owner';
   bool _isLoading = false;
   bool _obscurePassword = true;
 
@@ -46,12 +46,22 @@ class _RegisterScreenState extends State<RegisterScreen> {
     setState(() => _isLoading = true);
 
     final auth = Provider.of<AuthProvider>(context, listen: false);
+    
+    // Convert selected role label back to value
+    String roleValue = 'owner';
+    for (var role in _roles) {
+      if (role['label'] == _selectedRole) {
+        roleValue = role['value'];
+        break;
+      }
+    }
+    
     bool success = await auth.register(
       _emailController.text,
       _passwordController.text,
       _nameController.text,
       _phoneController.text,
-      _selectedRole,
+      roleValue,
     );
 
     setState(() => _isLoading = false);
@@ -68,15 +78,56 @@ class _RegisterScreenState extends State<RegisterScreen> {
     }
   }
 
+  Widget _buildRoleCard(String role, IconData icon) {
+    final isSelected = _selectedRole == role;
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          _selectedRole = role;
+        });
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.blue : Colors.grey.shade200,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: isSelected ? Colors.blue : Colors.transparent,
+            width: 2,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, color: isSelected ? Colors.white : Colors.grey.shade700),
+            const SizedBox(width: 8),
+            Text(
+              role,
+              style: TextStyle(
+                color: isSelected ? Colors.white : Colors.grey.shade800,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Create Account')),
+      appBar: AppBar(title: const Text('Create Your Account')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
           child: Column(
             children: [
+              const SizedBox(height: 20),
+              Text(
+                'Fill in your details to create your account',
+                style: TextStyle(color: Colors.grey.shade600),
+              ),
               const SizedBox(height: 20),
               TextField(
                 controller: _nameController,
@@ -120,21 +171,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 obscureText: _obscurePassword,
               ),
               const SizedBox(height: 16),
-              DropdownButtonFormField<String>(
-                value: _selectedRole,
-                decoration: const InputDecoration(
-                  labelText: 'I am a...',
-                  prefixIcon: Icon(Icons.person_outline),
-                ),
-                items: _roles.map((role) {
-                  return DropdownMenuItem(
-                    value: role['value'],
-                    child: Text(role['label']),
-                  );
-                }).toList(),
-                onChanged: (value) {
-                  setState(() => _selectedRole = value!);
-                },
+              const Text(
+                'I am a:',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 12),
+              Wrap(
+                spacing: 10,
+                runSpacing: 10,
+                children: [
+                  _buildRoleCard('Vehicle Owner', Icons.directions_car),
+                  _buildRoleCard('Mechanic', Icons.build),
+                  _buildRoleCard('Parts Shop', Icons.shopping_cart),
+                  _buildRoleCard('Distributor', Icons.local_shipping),
+                ],
               ),
               const SizedBox(height: 24),
               _isLoading
@@ -144,12 +194,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       style: ElevatedButton.styleFrom(
                         minimumSize: const Size(double.infinity, 50),
                       ),
-                      child: const Text('Register'),
+                      child: const Text('Create Account'),
                     ),
               const SizedBox(height: 16),
               TextButton(
                 onPressed: () => Navigator.pop(context),
-                child: const Text('Already have an account? Login'),
+                child: const Text('Already registered? Login'),
               ),
             ],
           ),
