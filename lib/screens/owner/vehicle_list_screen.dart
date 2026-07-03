@@ -5,6 +5,7 @@ import '../../services/vehicle_service.dart';
 import '../../models/vehicle_model.dart';
 import '../../l10n/app_localizations.dart';
 import 'add_vehicle_screen.dart';
+import 'edit_vehicle_screen.dart';
 
 class VehicleListScreen extends StatefulWidget {
   const VehicleListScreen({super.key});
@@ -155,13 +156,15 @@ class _VehicleListScreenState extends State<VehicleListScreen> {
                     return Card(
                       margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                       child: ListTile(
-                        leading: CircleAvatar(
-                          backgroundColor: vehicle.isDefault ? Colors.blue : Colors.grey,
-                          child: Icon(
-                            Icons.directions_car,
-                            color: Colors.white,
-                          ),
-                        ),
+                        leading: vehicle.photoUrl != null
+                            ? CircleAvatar(
+                                backgroundImage: NetworkImage(vehicle.photoUrl!),
+                                radius: 25,
+                              )
+                            : CircleAvatar(
+                                backgroundColor: Colors.grey.shade300,
+                                child: Icon(Icons.directions_car, color: Colors.grey.shade600),
+                              ),
                         title: Text(
                           '${vehicle.make} ${vehicle.model}',
                           style: TextStyle(fontWeight: FontWeight.bold),
@@ -184,6 +187,18 @@ class _VehicleListScreenState extends State<VehicleListScreen> {
                         isThreeLine: true,
                         trailing: PopupMenuButton(
                           itemBuilder: (context) => [
+                            PopupMenuItem(
+                              child: Text(t('edit')),
+                              onTap: () async {
+                                final result = await Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => EditVehicleScreen(vehicle: vehicle),
+                                  ),
+                                );
+                                if (result == true) _loadVehicles();
+                              },
+                            ),
                             PopupMenuItem(
                               child: Text(t('set_default')),
                               onTap: () => _setDefaultVehicle(vehicle.id),

@@ -5,6 +5,7 @@ import '../../providers/auth_provider.dart';
 import '../../services/profile_service.dart';
 import '../../models/profile_model.dart';
 import '../../l10n/app_localizations.dart';
+import 'edit_profile_screen.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -120,7 +121,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       _buildInfoRow(
                         context,
                         t('email'),
-                        _profile!.uid, // Placeholder until we add email to model
+                        context.read<AuthProvider>().user?.email ?? 'No email',
                       ),
                       
                       // Phone
@@ -144,7 +145,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         width: double.infinity,
                         child: ElevatedButton(
                           onPressed: () {
-                            // Navigate to edit profile screen
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EditProfileScreen(profile: _profile!),
+                              ),
+                            ).then((result) {
+                              if (result == true) {
+                                _loadProfile();
+                              }
+                            });
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.blue,

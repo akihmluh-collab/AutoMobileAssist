@@ -8,6 +8,7 @@ class VehicleModel {
   final int year;
   final String plateNumber;
   final bool isDefault;
+  final String? photoUrl;
   final DateTime createdAt;
 
   VehicleModel({
@@ -18,6 +19,7 @@ class VehicleModel {
     required this.year,
     required this.plateNumber,
     this.isDefault = false,
+    this.photoUrl,
     required this.createdAt,
   });
 
@@ -30,6 +32,7 @@ class VehicleModel {
       'year': year,
       'plateNumber': plateNumber,
       'isDefault': isDefault,
+      'photoUrl': photoUrl,
       'createdAt': createdAt,
     };
   }
@@ -43,6 +46,7 @@ class VehicleModel {
       year: json['year'] ?? 0,
       plateNumber: json['plateNumber'] ?? '',
       isDefault: json['isDefault'] ?? false,
+      photoUrl: json['photoUrl'],
       createdAt: (json['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
     );
   }

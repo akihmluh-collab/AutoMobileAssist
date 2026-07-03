@@ -100,5 +100,20 @@
 "no_vehicles": "No vehicles added yet",
 "tap_add_vehicle": "Tap + to add your first vehicle",
 "default": "Default",
-"your_location": "Your Location"
+"your_location": "Your Location",
+"first_name": "First Name",
+"last_name": "Last Name",
+"save": "Save",
+"first_name_required": "Please enter first name",
+"last_name_required": "Please enter last name",
+"phone_required": "Please enter phone number",
+"profile_updated": "Profile updated successfully",
+"update_error": "Error updating profile",
+"tap_to_add_photo": "Tap to add vehicle photo",
+"edit_vehicle": "Edit Vehicle",
+"update_vehicle": "Update Vehicle",
+"tap_to_change_photo": "Tap to change photo",
+"vehicle_updated": "Vehicle updated successfully",
+"vehicle_update_error": "Error updating vehicle",
+"edit": "Edit"
 }

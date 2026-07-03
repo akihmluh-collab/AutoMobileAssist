@@ -1,34 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'dart:math';
-import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import '../../providers/auth_provider.dart';
-import '../../services/vehicle_service.dart';
+import 'dart:io';
 import '../../models/vehicle_model.dart';
+import '../../services/vehicle_service.dart';
 import '../../l10n/app_localizations.dart';
 
-class AddVehicleScreen extends StatefulWidget {
-  const AddVehicleScreen({super.key});
+class EditVehicleScreen extends StatefulWidget {
+  final VehicleModel vehicle;
+  const EditVehicleScreen({super.key, required this.vehicle});
 
   @override
-  State<AddVehicleScreen> createState() => _AddVehicleScreenState();
+  State<EditVehicleScreen> createState() => _EditVehicleScreenState();
 }
 
-class _AddVehicleScreenState extends State<AddVehicleScreen> {
+class _EditVehicleScreenState extends State<EditVehicleScreen> {
   final _formKey = GlobalKey<FormState>();
   final VehicleService _vehicleService = VehicleService();
   
-  final TextEditingController _makeController = TextEditingController();
-  final TextEditingController _modelController = TextEditingController();
-  final TextEditingController _yearController = TextEditingController();
-  final TextEditingController _plateController = TextEditingController();
+  late TextEditingController _makeController;
+  late TextEditingController _modelController;
+  late TextEditingController _yearController;
+  late TextEditingController _plateController;
   
-  bool _isLoading = false;
   XFile? _selectedImage;
   String? _imageUrl;
+  bool _isLoading = false;
   bool _isUploading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _makeController = TextEditingController(text: widget.vehicle.make);
+    _modelController = TextEditingController(text: widget.vehicle.model);
+    _yearController = TextEditingController(text: widget.vehicle.year.toString());
+    _plateController = TextEditingController(text: widget.vehicle.plateNumber);
+    _imageUrl = widget.vehicle.photoUrl;
+  }
+
+  @override
+  void dispose() {
+    _makeController.dispose();
+    _modelController.dispose();
+    _yearController.dispose();
+    _plateController.dispose();
+    super.dispose();
+  }
 
   Future<void> _pickImage() async {
     final ImagePicker picker = ImagePicker();
@@ -43,75 +60,40 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
     }
   }
 
-  Future<String?> _uploadImage(String vehicleId) async {
-    if (_selectedImage == null) return null;
-    
-    try {
-      setState(() => _isUploading = true);
-      
-      final String fileName = 'vehicles/$vehicleId/${DateTime.now().millisecondsSinceEpoch}.jpg';
-      final Reference storageRef = FirebaseStorage.instance.ref().child(fileName);
-      
-      final File file = File(_selectedImage!.path);
-      final UploadTask uploadTask = storageRef.putFile(file);
-      
-      final TaskSnapshot snapshot = await uploadTask;
-      final String downloadUrl = await snapshot.ref.getDownloadURL();
-      
-      return downloadUrl;
-    } catch (e) {
-      print('Error uploading image: $e');
-      return null;
-    } finally {
-      setState(() => _isUploading = false);
-    }
-  }
-
-  Future<void> _saveVehicle() async {
+  Future<void> _updateVehicle() async {
     if (!_formKey.currentState!.validate()) return;
     
     setState(() => _isLoading = true);
-    
+
     try {
-      final authProvider = context.read<AuthProvider>();
-      final uid = authProvider.user?.uid;
-      
-      if (uid == null) return;
-      
-      final vehicleId = DateTime.now().millisecondsSinceEpoch.toString();
-      
-      // Upload photo if selected
+      // Upload new photo if selected
       if (_selectedImage != null) {
         setState(() => _isUploading = true);
-        try {
-          String fileName = 'vehicles/${DateTime.now().millisecondsSinceEpoch}.jpg';
-          Reference ref = FirebaseStorage.instance.ref().child(fileName);
-          await ref.putFile(File(_selectedImage!.path));
-          _imageUrl = await ref.getDownloadURL();
-        } catch (e) {
-          print('Error uploading photo: $e');
-        }
+        String fileName = 'vehicles/${DateTime.now().millisecondsSinceEpoch}.jpg';
+        Reference ref = FirebaseStorage.instance.ref().child(fileName);
+        await ref.putFile(File(_selectedImage!.path));
+        _imageUrl = await ref.getDownloadURL();
         setState(() => _isUploading = false);
       }
-      
-      final vehicle = VehicleModel(
-        id: vehicleId,
-        ownerUid: uid,
+
+      final updatedVehicle = VehicleModel(
+        id: widget.vehicle.id,
+        ownerUid: widget.vehicle.ownerUid,
         make: _makeController.text.trim(),
         model: _modelController.text.trim(),
         year: int.parse(_yearController.text.trim()),
         plateNumber: _plateController.text.trim().toUpperCase(),
-        isDefault: false,
+        isDefault: widget.vehicle.isDefault,
         photoUrl: _imageUrl,
-        createdAt: DateTime.now(),
+        createdAt: widget.vehicle.createdAt,
       );
-      
-      await _vehicleService.addVehicle(vehicle);
-      
+
+      await _vehicleService.updateVehicle(updatedVehicle);
+
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(AppLocalizations.of(context)!.translate('vehicle_added')),
+            content: Text(AppLocalizations.of(context)!.translate('vehicle_updated')),
             backgroundColor: Colors.green,
           ),
         );
@@ -121,7 +103,7 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(AppLocalizations.of(context)!.translate('vehicle_add_error')),
+            content: Text(AppLocalizations.of(context)!.translate('vehicle_update_error')),
             backgroundColor: Colors.red,
           ),
         );
@@ -134,20 +116,20 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
   @override
   Widget build(BuildContext context) {
     final t = AppLocalizations.of(context)!.translate;
-    
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(t('add_vehicle')),
+        title: Text(t('edit_vehicle')),
         backgroundColor: Colors.blue,
         foregroundColor: Colors.white,
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(
           key: _formKey,
           child: Column(
             children: [
-              // Photo Picker
+              // Photo
               GestureDetector(
                 onTap: _pickImage,
                 child: Container(
@@ -157,33 +139,39 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                     border: Border.all(color: Colors.grey.shade400),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: _selectedImage == null
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.add_photo_alternate, size: 40, color: Colors.grey.shade600),
-                            const SizedBox(height: 8),
-                            Text(
-                              AppLocalizations.of(context)!.translate('tap_to_add_photo'),
-                              style: TextStyle(color: Colors.grey.shade600),
-                            ),
-                          ],
-                        )
-                      : ClipRRect(
+                  child: _selectedImage != null
+                      ? ClipRRect(
                           borderRadius: BorderRadius.circular(12),
                           child: Image.file(
                             File(_selectedImage!.path),
                             fit: BoxFit.cover,
                             width: double.infinity,
                           ),
-                        ),
+                        )
+                      : _imageUrl != null
+                          ? ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.network(
+                                _imageUrl!,
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                              ),
+                            )
+                          : Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(Icons.add_photo_alternate, size: 40, color: Colors.grey.shade600),
+                                const SizedBox(height: 8),
+                                Text(
+                                  t('tap_to_change_photo'),
+                                  style: TextStyle(color: Colors.grey.shade600),
+                                ),
+                              ],
+                            ),
                 ),
               ),
               const SizedBox(height: 16),
-              if (_isUploading) ...[
-                const LinearProgressIndicator(),
-                const SizedBox(height: 16),
-              ],
+
               TextFormField(
                 controller: _makeController,
                 decoration: InputDecoration(
@@ -192,13 +180,11 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                   prefixIcon: Icon(Icons.car_repair),
                 ),
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return t('make_required');
-                  }
+                  if (value == null || value.isEmpty) return t('make_required');
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _modelController,
                 decoration: InputDecoration(
@@ -207,13 +193,11 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                   prefixIcon: Icon(Icons.directions_car),
                 ),
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return t('model_required');
-                  }
+                  if (value == null || value.isEmpty) return t('model_required');
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _yearController,
                 keyboardType: TextInputType.number,
@@ -223,16 +207,12 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                   prefixIcon: Icon(Icons.calendar_today),
                 ),
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return t('year_required');
-                  }
-                  if (int.tryParse(value) == null) {
-                    return t('year_invalid');
-                  }
+                  if (value == null || value.isEmpty) return t('year_required');
+                  if (int.tryParse(value) == null) return t('year_invalid');
                   return null;
                 },
               ),
-              SizedBox(height: 16),
+              const SizedBox(height: 16),
               TextFormField(
                 controller: _plateController,
                 decoration: InputDecoration(
@@ -241,32 +221,27 @@ class _AddVehicleScreenState extends State<AddVehicleScreen> {
                   prefixIcon: Icon(Icons.confirmation_number),
                 ),
                 validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return t('plate_required');
-                  }
+                  if (value == null || value.isEmpty) return t('plate_required');
                   return null;
                 },
               ),
-              SizedBox(height: 32),
+              const SizedBox(height: 32),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: _isLoading ? null : _saveVehicle,
+                  onPressed: _isLoading ? null : _updateVehicle,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
-                    padding: EdgeInsets.symmetric(vertical: 16),
+                    padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
                   ),
                   child: _isLoading
-                      ? CircularProgressIndicator(color: Colors.white)
+                      ? const CircularProgressIndicator(color: Colors.white)
                       : Text(
-                          t('save_vehicle'),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                          ),
+                          t('update_vehicle'),
+                          style: const TextStyle(color: Colors.white, fontSize: 16),
                         ),
                 ),
               ),
