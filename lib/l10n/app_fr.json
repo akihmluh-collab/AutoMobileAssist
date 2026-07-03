@@ -99,5 +99,6 @@
 "default_set": "Véhicule par défaut mis à jour",
 "no_vehicles": "Aucun véhicule ajouté",
 "tap_add_vehicle": "Appuyez sur + pour ajouter votre premier véhicule",
-"default": "Par défaut"
+"default": "Par défaut",
+"your_location": "Votre position"
 }
