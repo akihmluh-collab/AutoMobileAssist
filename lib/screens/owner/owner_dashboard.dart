@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:auto_mobile_assist/l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
+import '../profile/profile_screen.dart';
 
 class OwnerDashboard extends StatelessWidget {
   const OwnerDashboard({super.key});
@@ -14,7 +15,18 @@ class OwnerDashboard extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.translate('app_name')),
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.person),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const ProfileScreen()),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () => auth.logout(),
