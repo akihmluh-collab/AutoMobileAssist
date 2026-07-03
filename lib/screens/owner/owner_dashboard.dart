@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:auto_mobile_assist/l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../profile/profile_screen.dart';
+import '../owner/vehicle_list_screen.dart';
 
 class OwnerDashboard extends StatelessWidget {
   const OwnerDashboard({super.key});
@@ -68,7 +69,10 @@ class OwnerDashboard extends StatelessWidget {
                   title: AppLocalizations.of(context)!.translate('my_vehicles'),
                   color: Colors.green,
                   onTap: () {
-                    // Navigate to vehicles
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const VehicleListScreen()),
+                    );
                   },
                 ),
                 _buildMenuCard(
