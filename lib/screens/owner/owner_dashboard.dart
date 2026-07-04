@@ -5,6 +5,7 @@ import '../../providers/auth_provider.dart';
 import '../profile/profile_screen.dart';
 import '../owner/vehicle_list_screen.dart';
 import '../map/map_screen.dart';
+import '../sos/sos_screen.dart';
 
 class OwnerDashboard extends StatelessWidget {
   const OwnerDashboard({super.key});
@@ -94,6 +95,35 @@ class OwnerDashboard extends StatelessWidget {
                   onTap: () {
                     // Navigate to marketplace
                   },
+                ),
+                // SOS Card
+                Card(
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const SOSScreen()),
+                      );
+                    },
+                    borderRadius: BorderRadius.circular(12),
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.sos, size: 40, color: Colors.red),
+                          const SizedBox(height: 8),
+                          Text(
+                            AppLocalizations.of(context)!.translate('sos_emergency'),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),

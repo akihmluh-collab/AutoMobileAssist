@@ -115,5 +115,18 @@
 "tap_to_change_photo": "Appuyez pour changer la photo",
 "vehicle_updated": "Véhicule mis à jour avec succès",
 "vehicle_update_error": "Erreur lors de la mise à jour",
-"edit": "Modifier"
+"edit": "Modifier",
+"sos_emergency": "SOS Urgence",
+"sos_warning": "⚠️ Assistance d'urgence",
+"sos_subtitle": "Votre position sera partagée avec les mécaniciens proches",
+"select_vehicle": "Sélectionner un véhicule",
+"select_vehicle_hint": "Choisissez votre véhicule",
+"problem_description": "Description du problème",
+"describe_problem_hint": "Décrivez ce qui s'est passé (optionnel)",
+"send_sos": "🚨 ENVOYER SOS",
+"sos_sent": "SOS envoyé ! Les mécaniciens proches ont été notifiés.",
+"sos_error": "Erreur lors de l'envoi SOS. Réessayez.",
+"location_error": "Impossible d'obtenir votre position",
+"sos_disclaimer": "Utilisez SOS uniquement pour les vraies urgences. Les fausses alertes peuvent être pénalisées."
+
 }

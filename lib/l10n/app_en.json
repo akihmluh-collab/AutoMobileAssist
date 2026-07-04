@@ -115,5 +115,18 @@
 "tap_to_change_photo": "Tap to change photo",
 "vehicle_updated": "Vehicle updated successfully",
 "vehicle_update_error": "Error updating vehicle",
-"edit": "Edit"
+"edit": "Edit",
+"sos_emergency": "SOS Emergency",
+"sos_warning": "⚠️ Emergency Assistance",
+"sos_subtitle": "Your location will be shared with nearby mechanics",
+"select_vehicle": "Select Vehicle",
+"select_vehicle_hint": "Choose your vehicle",
+"problem_description": "Problem Description",
+"describe_problem_hint": "Describe what happened (optional)",
+"send_sos": "🚨 SEND SOS",
+"sos_sent": "SOS sent! Nearby mechanics have been notified.",
+"sos_error": "Error sending SOS. Please try again.",
+"location_error": "Could not get your location",
+"sos_disclaimer": "Only use SOS for genuine emergencies. False alarms may be penalized."
+
 }
