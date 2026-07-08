@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:auto_mobile_assist/l10n/app_localizations.dart';
 import '../../providers/auth_provider.dart';
 import '../profile/profile_screen.dart';
+import 'mechanic_requests_screen.dart';
 
 class MechanicDashboard extends StatelessWidget {
   const MechanicDashboard({super.key});
@@ -60,7 +61,10 @@ class MechanicDashboard extends StatelessWidget {
                   title: AppLocalizations.of(context)!.translate('job_requests'),
                   color: Colors.blue,
                   onTap: () {
-                    // Navigate to job requests
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const MechanicRequestsScreen()),
+                    );
                   },
                 ),
                 _buildMenuCard(

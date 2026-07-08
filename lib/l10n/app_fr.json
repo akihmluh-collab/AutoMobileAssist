@@ -127,6 +127,17 @@
 "sos_sent": "SOS envoyé ! Les mécaniciens proches ont été notifiés.",
 "sos_error": "Erreur lors de l'envoi SOS. Réessayez.",
 "location_error": "Impossible d'obtenir votre position",
-"sos_disclaimer": "Utilisez SOS uniquement pour les vraies urgences. Les fausses alertes peuvent être pénalisées."
+"sos_disclaimer": "Utilisez SOS uniquement pour les vraies urgences. Les fausses alertes peuvent être pénalisées.",
+"request_service": "Demander un service",
+"request_service_subtitle": "Décrivez votre problème et les mécaniciens proches seront notifiés",
+"send_request": "Envoyer la demande",
+"request_sent": "Demande envoyée ! Les mécaniciens répondront bientôt.",
+"request_error": "Erreur lors de l'envoi. Réessayez.",
+"getting_location": "Obtention de la position...",
+"no_pending_requests": "Aucune demande en attente",
+"waiting_for_requests": "En attente de demandes de clients...",
+"accept_job": "Accepter le travail",
+"request_accepted": "Demande acceptée ! Le client a été notifié.",
+"accept_error": "Erreur lors de l'acceptation. Réessayez."
 
 }

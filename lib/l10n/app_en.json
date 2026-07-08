@@ -127,6 +127,17 @@
 "sos_sent": "SOS sent! Nearby mechanics have been notified.",
 "sos_error": "Error sending SOS. Please try again.",
 "location_error": "Could not get your location",
-"sos_disclaimer": "Only use SOS for genuine emergencies. False alarms may be penalized."
+"sos_disclaimer": "Only use SOS for genuine emergencies. False alarms may be penalized.",
+"request_service": "Request Service",
+"request_service_subtitle": "Describe your problem and nearby mechanics will be notified",
+"send_request": "Send Request",
+"request_sent": "Request sent! Mechanics will respond shortly.",
+"request_error": "Error sending request. Try again.",
+"getting_location": "Getting location...",
+"no_pending_requests": "No pending requests",
+"waiting_for_requests": "Waiting for customers to request service...",
+"accept_job": "Accept Job",
+"request_accepted": "Request accepted! Customer has been notified.",
+"accept_error": "Error accepting request. Try again."
 
 }

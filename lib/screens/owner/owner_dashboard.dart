@@ -6,6 +6,7 @@ import '../profile/profile_screen.dart';
 import '../owner/vehicle_list_screen.dart';
 import '../map/map_screen.dart';
 import '../sos/sos_screen.dart';
+import 'create_request_screen.dart';
 
 class OwnerDashboard extends StatelessWidget {
   const OwnerDashboard({super.key});
@@ -95,6 +96,35 @@ class OwnerDashboard extends StatelessWidget {
                   onTap: () {
                     // Navigate to marketplace
                   },
+                ),
+                // Request Service Card
+                Card(
+                  elevation: 2,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const CreateRequestScreen()),
+                      );
+                    },
+                    borderRadius: BorderRadius.circular(12),
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.build_circle, size: 40, color: Colors.orange),
+                          const SizedBox(height: 8),
+                          Text(
+                            AppLocalizations.of(context)!.translate('request_service'),
+                            style: const TextStyle(fontWeight: FontWeight.bold),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
                 // SOS Card
                 Card(
